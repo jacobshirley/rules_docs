@@ -1,7 +1,7 @@
 {
-  "homepage": "https://github.com/myorg/rules_mylang",
-  "maintainers": [],
-  "repository": ["github:myorg/rules_mylang"],
-  "versions": [],
-  "yanked_versions": {}
+    "homepage": "https://github.com/jacobshirley/rules_docgen",
+    "maintainers": [],
+    "repository": ["github:jacobshirley/rules_docgen"],
+    "versions": [],
+    "yanked_versions": {}
 }

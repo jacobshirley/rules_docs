@@ -1,7 +1,7 @@
 "Bazel dependencies"
 
 module(
-    name = "com_myorg_rules_mylang",
+    name = "jacobshirley_rules_docgen",
 
     # NOTE:
     # version = "",
@@ -41,8 +41,8 @@ bazel_dep(name = "buildifier_prebuilt", version = "8.2.1", dev_dependency = True
 
 bazel_dep(name = "bazelrc-preset.bzl", version = "1.6.0")
 
-mylang = use_extension("//mylang:extensions.bzl", "mylang")
-mylang.toolchain(mylang_version = "1.14.2")
-use_repo(mylang, "mylang_toolchains")
+docgen = use_extension("//docgen:extensions.bzl", "docgen")
+docgen.toolchain(docgen_version = "1.14.2")
+use_repo(docgen, "docgen_toolchains")
 
-register_toolchains("@mylang_toolchains//:all")
+register_toolchains("@docgen_toolchains//:all")
