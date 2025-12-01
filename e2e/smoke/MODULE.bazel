@@ -5,3 +5,8 @@ local_path_override(
     module_name = "jacobshirley_rules_docgen",
     path = "../..",
 )
+
+docgen = use_extension("@jacobshirley_rules_docgen//docgen:extensions.bzl", "docgen", dev_dependency = True)
+docgen.mkdocs(
+    mkdocs_version = "1.0.2",
+)

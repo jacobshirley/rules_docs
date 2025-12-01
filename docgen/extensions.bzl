@@ -10,45 +10,17 @@ names (the latest version will be picked for each name) and can register them as
 effectively overriding the default named toolchain due to toolchain resolution precedence.
 """
 
-load(":repositories.bzl", "docgen_register_toolchains")
-
-_DEFAULT_NAME = "docgen"
-
-docgen_toolchain = tag_class(attrs = {
-    "name": attr.string(doc = """\
-Base name for generated repositories, allowing more than one docgen toolchain to be registered.
-Overriding the default is only permitted in the root module.
-""", default = _DEFAULT_NAME),
-    "docgen_version": attr.string(doc = "Explicit version of docgen.", mandatory = True),
+docgen_mkdocs = tag_class(attrs = {
+    "mkdocs_version": attr.string(doc = "Explicit version of mkdocs.", mandatory = False, default = "1.5.2"),
 })
 
 def _toolchain_extension(module_ctx):
-    registrations = {}
+    mkdocs = []
     for mod in module_ctx.modules:
-        for toolchain in mod.tags.toolchain:
-            if toolchain.name != _DEFAULT_NAME and not mod.is_root:
-                fail("""\
-                Only the root module may override the default name for the docgen toolchain.
-                This prevents conflicting registrations in the global namespace of external repos.
-                """)
-            if toolchain.name not in registrations.keys():
-                registrations[toolchain.name] = []
-            registrations[toolchain.name].append(toolchain.docgen_version)
-    for name, versions in registrations.items():
-        if len(versions) > 1:
-            # TODO: should be semver-aware, using MVS
-            selected = sorted(versions, reverse = True)[0]
+        for toolchain in mod.tags.mkdocs:
+            print(toolchain.mkdocs_version)
+            mkdocs.append(toolchain.mkdocs_version)
 
-            # buildifier: disable=print
-            print("NOTE: docgen toolchain {} has multiple versions {}, selected {}".format(name, versions, selected))
-        else:
-            selected = versions[0]
-
-        docgen_register_toolchains(
-            name = name,
-            docgen_version = selected,
-            register = False,
-        )
     return module_ctx.extension_metadata(
         # Return True if the behavior of the module extension is fully
         # determined by its inputs. Return False if the module depends on
@@ -62,7 +34,7 @@ def _toolchain_extension(module_ctx):
 
 docgen = module_extension(
     implementation = _toolchain_extension,
-    tag_classes = {"toolchain": docgen_toolchain},
+    tag_classes = {"mkdocs": docgen_mkdocs},
     # Mark the extension as OS and architecture independent to simplify the
     # lock file. An independent module extension may still download OS- and
     # arch-dependent files, but it should download the same set of files

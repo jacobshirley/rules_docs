@@ -6,7 +6,7 @@ See https://docs.bazel.build/versions/main/skylark/deploying.html#dependencies
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", _http_archive = "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
-load("//docgen/private:toolchains_repo.bzl", "PLATFORMS", "toolchains_repo")
+load("//docgen/private:toolchains_repo.bzl", "PLATFORMS")
 load("//docgen/private:versions.bzl", "TOOL_VERSIONS")
 
 def http_archive(name, **kwargs):
@@ -91,10 +91,3 @@ def docgen_register_toolchains(name, register = True, **kwargs):
             platform = platform,
             **kwargs
         )
-        if register:
-            native.register_toolchains("@%s_toolchains//:%s_toolchain" % (name, platform))
-
-    toolchains_repo(
-        name = name + "_toolchains",
-        user_repository_name = name,
-    )
