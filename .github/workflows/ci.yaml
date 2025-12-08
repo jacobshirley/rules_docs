@@ -26,7 +26,8 @@ jobs:
       exclude: |
         [
           {"folder": ".", "bzlmodEnabled": false},
-          {"folder": ".", "bazelVersion": "6.4.0"}
+          {"bazelVersion": "6.4.0"}
+
         ]
   pre-commit:
     runs-on: ubuntu-latest
