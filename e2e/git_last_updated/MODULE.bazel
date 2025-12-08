@@ -1,0 +1,31 @@
+bazel_dep(name = "jacobshirley_rules_docgen", version = "0.0.0", dev_dependency = True)
+bazel_dep(name = "bazel_skylib", version = "1.8.2", dev_dependency = True)
+bazel_dep(name = "bazel_lib", version = "3.0.0", dev_dependency = True)
+bazel_dep(name = "rules_diff", version = "1.0.0", dev_dependency = True)
+
+local_path_override(
+    module_name = "jacobshirley_rules_docgen",
+    path = "../..",
+)
+
+bazel_dep(name = "rules_python", version = "1.7.0", dev_dependency = True)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pypi",
+    python_version = "3.11",
+    requirements_lock = "//:requirements.txt",
+)
+use_repo(pip, "pypi")
+
+docgen = use_extension("@jacobshirley_rules_docgen//docgen:extensions.bzl", "docgen")
+docgen.mkdocs(
+    pypi_hub = "@pypi",
+    # These must be defined in the requirements.txt
+    plugins = [
+        "mkdocs-glightbox",
+        "mkdocs-material",
+        "mkdocs-table-reader-plugin",
+    ]
+)
+use_repo(docgen, "mkdocs")
