@@ -19,12 +19,12 @@ use_repo(pip, "pypi")
 
 docgen = use_extension("@jacobshirley_rules_docgen//docgen:extensions.bzl", "docgen")
 docgen.mkdocs(
-    pypi_hub = "@pypi",
     # These must be defined in the requirements.txt
     plugins = [
         "mkdocs-glightbox",
         "mkdocs-material",
         "mkdocs-table-reader-plugin",
-    ]
+    ],
+    pypi_hub = "@pypi",
 )
 use_repo(docgen, "mkdocs")

@@ -1,13 +1,12 @@
 load("@bazel_lib//lib:run_binary.bzl", "run_binary")
 
 def git_last_updated_timestamps(
-    name,
-    git_dir = ".git",
-    srcs = [],
-    out = "git-timestamps.json",
-    filter_extensions = ["md", "rst", "txt"],
-    **kwargs
-):
+        name,
+        git_dir = ".git",
+        srcs = [],
+        out = "git-timestamps.json",
+        filter_extensions = ["md", "rst", "txt"],
+        **kwargs):
     run_binary(
         name = name,
         srcs = native.glob([git_dir + "/**"]) + srcs,

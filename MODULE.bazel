@@ -41,8 +41,8 @@ bazel_dep(name = "bazel_skylib_gazelle_plugin", version = "1.8.2", dev_dependenc
 bazel_dep(name = "buildifier_prebuilt", version = "8.2.1", dev_dependency = True)
 
 bazel_dep(name = "bazelrc-preset.bzl", version = "1.6.0")
-
 bazel_dep(name = "rules_python", version = "1.7.0")
+
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     hub_name = "default_pypi",

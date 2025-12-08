@@ -1,7 +1,7 @@
 """Tests for git_last_updated_timestamps rule."""
 
-load("@jacobshirley_rules_docgen//docgen:defs.bzl", "docs", "docs_add_last_updated", "git_last_updated_timestamps")
 load("@bazel_lib//lib:diff_test.bzl", "diff_test")
+load("@jacobshirley_rules_docgen//docgen:defs.bzl", "docs", "docs_add_last_updated", "git_last_updated_timestamps")
 
 docs(
     name = "docs",
@@ -9,16 +9,16 @@ docs(
 
 git_last_updated_timestamps(
     name = "git_last_updated_timestamps",
-    git_dir = "git_test",
     out = "last_updated.json",
+    git_dir = "git_test",
     visibility = ["//visibility:public"],
 )
 
 docs_add_last_updated(
     name = "docs_with_last_updated",
+    docs = ":docs",
     last_updated_json = ":git_last_updated_timestamps",
     out_dir = "last_updated_docs",
-    docs = ":docs",
     visibility = ["//visibility:public"],
 )
 
@@ -28,9 +28,8 @@ diff_test(
     file2 = "golden-last_updated.json",
 )
 
-
 diff_test(
     name = "diff_test_readme_last_updated",
     file1 = ":docs_with_last_updated",
-    file2 = "golden-docs"
+    file2 = "golden-docs",
 )
