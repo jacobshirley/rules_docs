@@ -28,7 +28,6 @@ def _git_last_updated_timestamps_impl(ctx):
             command = command,
             mnemonic = "GitLastUpdatedTimestamps",
             progress_message = "Extracting git timestamps for %s" % ctx.label.name,
-            tools = [sh_toolchain.sh],
         )
     else:
         # On Unix, run the script directly
