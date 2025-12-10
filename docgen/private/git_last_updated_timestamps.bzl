@@ -1,31 +1,27 @@
 """Rules for extracting last updated timestamps from git history."""
 
-def _git_last_updated_timestamps_impl(ctx):
-    out = ctx.actions.declare_file(ctx.attr.out)
+load("@bazel_lib//lib:windows_utils.bzl", "create_windows_native_launcher_script")
 
-    # Select the appropriate script based on platform
+def _git_last_updated_timestamps_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
-    script = ctx.executable._ps_script if is_windows else ctx.executable._sh_script
+
+    out = ctx.actions.declare_file(ctx.attr.out)
+    script = ctx.executable._script
 
     # Build arguments
+    args = ctx.actions.args()
+    args.add("--filter-extensions")
+    args.add(",".join(ctx.attr.filter_extensions))
+    args.add("--output")
+    args.add(out.path)
+    args.add("--git-dir")
+    args.add(ctx.attr.git_dir)
+
     if is_windows:
-        # PowerShell arguments format
-        args = ctx.actions.args()
-        args.add("-FilterExtensions")
-        args.add(",".join(ctx.attr.filter_extensions))
-        args.add("-Output")
-        args.add(out.path)
-        args.add("-GitDir")
-        args.add(ctx.attr.git_dir)
-    else:
-        # Bash arguments format
-        args = ctx.actions.args()
-        args.add("--filter-extensions")
-        args.add(",".join(ctx.attr.filter_extensions))
-        args.add("--output")
-        args.add(out.path)
-        args.add("--git-dir")
-        args.add(ctx.attr.git_dir)
+        script = create_windows_native_launcher_script(
+            ctx,
+            script,
+        )
 
     ctx.actions.run(
         inputs = ctx.files.srcs,
@@ -57,14 +53,8 @@ git_last_updated_timestamps = rule(
             doc = "List of file extensions to filter",
             default = ["md", "rst", "txt"],
         ),
-        "_sh_script": attr.label(
+        "_script": attr.label(
             default = "//docgen/private/sh:git-last-updated-timestamps.sh",
-            executable = True,
-            cfg = "exec",
-            allow_single_file = True,
-        ),
-        "_ps_script": attr.label(
-            default = "//docgen/private/sh:git-last-updated-timestamps.ps1",
             executable = True,
             cfg = "exec",
             allow_single_file = True,
@@ -73,4 +63,7 @@ git_last_updated_timestamps = rule(
             default = "@platforms//os:windows",
         ),
     },
+    toolchains = [
+        "@bazel_tools//tools/sh:toolchain_type",
+    ],
 )
