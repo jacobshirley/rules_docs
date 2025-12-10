@@ -1,3 +1,5 @@
+"""Rules for creating documentation links."""
+
 load(":providers.bzl", "DocsLinkInfo")
 
 def _docs_link_impl(ctx):

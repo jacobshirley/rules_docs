@@ -1,3 +1,5 @@
+"""Rules for building MkDocs documentation sites."""
+
 load(":utils.bzl", "collect_inputs")
 
 def _mkdocs_build_impl(ctx):

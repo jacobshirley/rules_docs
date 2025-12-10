@@ -1,3 +1,5 @@
+"""Rules for generating MkDocs configuration files."""
+
 load(":providers.bzl", "DocsProviderInfo")
 
 def _mkdocs_config_impl(ctx):

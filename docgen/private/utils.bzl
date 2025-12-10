@@ -1,8 +1,19 @@
+"""Utility functions for documentation processing."""
+
 load("@bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory_bin_action")
 
 UNIQUE_FOLDER_NAME = "_bazel_docs"
 
 def collect_inputs(ctx, root = ""):
+    """Collects and organizes documentation inputs into a directory structure.
+
+    Args:
+        ctx: Rule context
+        root: Optional root navigation folder
+
+    Returns:
+        Tuple of (docs_folder, config_file)
+    """
     docs_folder = ctx.actions.declare_directory(ctx.label.name + "/" + ctx.attr.docs_dir)
 
     copy_to_directory_bin = ctx.toolchains["@bazel_lib//lib:copy_to_directory_toolchain_type"].copy_to_directory_info.bin

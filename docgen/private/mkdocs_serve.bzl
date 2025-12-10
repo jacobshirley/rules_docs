@@ -1,3 +1,5 @@
+"""Rules for serving MkDocs documentation sites locally."""
+
 load(":utils.bzl", "collect_inputs")
 
 def _mkdocs_serve_impl(ctx):

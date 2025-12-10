@@ -1,3 +1,5 @@
+"""Internal documentation processing actions."""
+
 load("@bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory_bin_action")
 load("@bazel_lib//lib:paths.bzl", "to_repository_relative_path")
 load(":providers.bzl", "DocsLinkInfo", "DocsProviderInfo")

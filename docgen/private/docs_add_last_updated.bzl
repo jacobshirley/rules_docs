@@ -1,3 +1,5 @@
+"""Rules for adding last updated timestamps to documentation."""
+
 load(":providers.bzl", "DocsProviderInfo")
 load(":utils.bzl", "UNIQUE_FOLDER_NAME")
 

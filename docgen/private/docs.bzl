@@ -1,3 +1,5 @@
+"""Core documentation processing rules."""
+
 load("@bazel_lib//lib:utils.bzl", "file_exists")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load(":docs_action.bzl", "docs_action")

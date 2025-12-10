@@ -1,3 +1,5 @@
+"""Rules for extracting last updated timestamps from git history."""
+
 load("@bazel_lib//lib:run_binary.bzl", "run_binary")
 
 def git_last_updated_timestamps(

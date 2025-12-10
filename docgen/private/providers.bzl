@@ -1,3 +1,5 @@
+"""Providers for documentation rules."""
+
 DocsProviderInfo = provider(
     doc = "Provider to specify docs information, such as files and navigation title",
     fields = {
