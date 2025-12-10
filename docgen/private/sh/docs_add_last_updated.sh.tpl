@@ -17,8 +17,7 @@ function update_file {
 
     {coreutils} mkdir -p "{out_dir}/$(dirname "$output_path")"
     {coreutils} cp "$input_path" "{out_dir}/$output_path"
-    # Ensure file is writable before appending (especially important on Windows)
-    {coreutils} chmod 644 "{out_dir}/$output_path" 2>/dev/null || {coreutils} chmod u+w "{out_dir}/$output_path" 2>/dev/null || true
+    {coreutils} chmod 644 "{out_dir}/$output_path"
 
     # For JSON lookup, strip everything up to and including the unique folder name
     json_lookup_path=$(echo "$output_path" | sed 's|^.*{unique_folder_name}/||')
