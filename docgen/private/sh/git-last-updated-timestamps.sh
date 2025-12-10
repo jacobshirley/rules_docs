@@ -55,7 +55,7 @@ fi
 # Get all modifications with dates, keep only the latest for each file (case-insensitive)
 RESULT=$(git log --name-status --pretty=format:"DATE:%cI" --all |
 	awk -v exts="$FILTER_EXTENSIONS" '
-BEGIN { 
+BEGIN {
     FS = "\t"
     current_date = ""
     # Split extensions by comma and build regex pattern
@@ -66,7 +66,7 @@ BEGIN {
         pattern = pattern "\\." ext_array[i] "$"
     }
 }
-/^DATE:/ { 
+/^DATE:/ {
     current_date = substr($0, 6)  # Remove "DATE:" prefix
     next
 }

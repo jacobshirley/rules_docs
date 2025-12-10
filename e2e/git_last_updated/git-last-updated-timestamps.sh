@@ -10,11 +10,11 @@ fi
 # Get all modifications with dates, keep only the latest for each .md file (case-insensitive)
 git log --name-status --pretty=format:"DATE:%cI" --all |
 	awk -v ext="$1" '
-BEGIN { 
+BEGIN {
     FS = "\t"
     current_date = ""
 }
-/^DATE:/ { 
+/^DATE:/ {
     current_date = substr($0, 6)  # Remove "DATE:" prefix
     next
 }

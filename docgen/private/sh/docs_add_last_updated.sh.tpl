@@ -50,8 +50,8 @@ function update_file {
 for arg in "$@"; do
     # Split argument by colon to get long_path:short_path
     IFS=':' read -r long_path short_path <<< "$arg"
-    
-    if [ -d "$long_path" ]; then   
+
+    if [ -d "$long_path" ]; then
         find -L "$long_path" -type f -print0 | while IFS= read -r -d '' f; do
             # Calculate relative path from the directory
             rel_path="${f#$long_path/}"

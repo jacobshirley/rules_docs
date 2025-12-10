@@ -277,7 +277,7 @@ def _docs_add_last_updated_impl(ctx):
         }}
 
         for file in "$@"; do
-            if [ -d "$file" ]; then   
+            if [ -d "$file" ]; then
                 find -L "$file" -type f -print0 | while IFS= read -r -d '' f; do
                     update_file "$f"
                 done
