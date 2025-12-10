@@ -26,7 +26,6 @@ jobs:
       exclude: |
         [
           {"bazelVersion": "6.4.0"}
-          {"bzlmodEnabled": false"}
         ]
   pre-commit:
     runs-on: ubuntu-latest
