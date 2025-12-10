@@ -74,6 +74,8 @@ git_last_updated_timestamps = rule(
         "_script": attr.label(
             default = "//docgen/private/sh:git-last-updated-timestamps.sh",
             cfg = "exec",
+            executable = True,
+            doc = "The script to extract git last updated timestamps",
             allow_single_file = True,
         ),
         "_windows_constraint": attr.label(
