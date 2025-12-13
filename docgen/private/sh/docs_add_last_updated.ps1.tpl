@@ -69,7 +69,7 @@ function Update-File {
     }
 
     # Append to file with proper line endings
-    "`n`n$footerLine`n" | Add-Content -Path $outputFullPath -NoNewline
+    "$footerLine`n" | Add-Content -Path $outputFullPath -NoNewline
 }
 
 # Process arguments
