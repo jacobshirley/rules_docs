@@ -1,6 +1,6 @@
 load("@bazel_gazelle//:def.bzl", "gazelle", "gazelle_binary")
 load("@buildifier_prebuilt//:rules.bzl", "buildifier")
-load("@mkdocs//:defs.bzl", "mkdocs_config", "mkdocs_serve")
+load("@mkdocs//:defs.bzl", "mkdocs_build", "mkdocs_config", "mkdocs_serve")
 load("@package_metadata//licenses/rules:license.bzl", "license")
 load("@package_metadata//purl:purl.bzl", "purl")
 load("@package_metadata//rules:package_metadata.bzl", "package_metadata")
@@ -59,6 +59,12 @@ mkdocs_config(
     name = "mkdocs_config",
     docs = ":docs",
     mkdocs_base = "mkdocs.tpl.yaml",
+)
+
+mkdocs_build(
+    name = "mkdocs",
+    config = ":mkdocs_config",
+    docs = [":docs"],
 )
 
 # Serve the docs locally for development. Recommended to run with ibazel to auto-reload on changes.
