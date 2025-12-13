@@ -40,5 +40,5 @@ docs_add_last_updated(
 diff_test(
     name = "diff_test_readme_last_updated",
     file1 = ":docs_with_last_updated",
-    file2 = "golden-docs",
+    file2 = "golden-test_docs",
 )
