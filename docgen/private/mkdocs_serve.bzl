@@ -35,6 +35,27 @@ def _mkdocs_serve_impl(ctx):
     ]
 
 mkdocs_serve = rule(
+    doc = """Serve MkDocs documentation locally for development.
+
+    This rule creates an executable that runs the MkDocs development server,
+    allowing you to preview your documentation with live reload support.
+    When used with ibazel, changes to source files will automatically rebuild
+    and reload the documentation in your browser.
+
+    Example:
+        mkdocs_serve(
+            name = "mkdocs.serve",
+            config = ":mkdocs_config",
+            docs = [":docs"],
+        )
+
+    Run with:
+        bazel run //:mkdocs.serve
+        # or for live reload:
+        ibazel run //:mkdocs.serve
+
+    The server will be available at http://localhost:8000 by default.
+    """,
     implementation = _mkdocs_serve_impl,
     attrs = {
         "mkdocs_executable": attr.label(

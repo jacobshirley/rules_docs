@@ -45,6 +45,27 @@ def _git_last_updated_timestamps_impl(ctx):
     return [DefaultInfo(files = depset([out]))]
 
 git_last_updated_timestamps = rule(
+    doc = """Extract last updated timestamps from git history for documentation files.
+
+    This rule queries git history to determine when each file was last modified
+    and outputs the results as a JSON file. The JSON maps file paths to Unix
+    timestamps representing the last commit time for each file.
+
+    Example:
+        git_last_updated_timestamps(
+            name = "timestamps",
+            srcs = glob(["docs/**/*.md"]),
+            out = "last_updated.json",
+            git_dir = ".git",
+            filter_extensions = ["md", "rst"],
+        )
+
+    The output JSON can then be used with docs_add_last_updated to annotate
+    documentation files with their modification times.
+
+    Note: This rule requires git to be available and the repository to have
+    git history. It uses the USE_DEFAULT_SHELL_ENV to access the git command.
+    """,
     implementation = _git_last_updated_timestamps_impl,
     attrs = {
         "git_dir": attr.string(
