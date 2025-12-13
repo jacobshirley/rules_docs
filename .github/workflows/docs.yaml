@@ -2,7 +2,7 @@ name: Deploy Docs
 on:
   push:
     branches:
-      - master
+      - main
       - docs/* # Useful for testing changes to docs
     tags:
       - 'v*.*.*' # Trigger on version tags like v1.0.0, v2.1.3, etc.
