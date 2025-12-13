@@ -1,4 +1,6 @@
 load("@bazel_lib//:bzl_library.bzl", "bzl_library")
+load("@stardoc//stardoc:stardoc.bzl", "stardoc")
+load("//docgen:defs.bzl", "docs")
 
 bzl_library(
     name = "docs",
@@ -74,4 +76,20 @@ bzl_library(
         "@bazel_lib//lib:copy_to_directory",
         "@bazel_lib//lib:paths",
     ],
+)
+
+stardoc(
+    name = "docs_action_docs",
+    out = "docs_action.md",
+    input = "docs_action.bzl",
+    deps = [":docs_action"],
+)
+
+docs(
+    name = "docs_md",
+    srcs = [":docs_action_docs"],
+    nav = {
+        ":docs_action.md": "docs_action",
+    },
+    visibility = ["//visibility:public"],
 )

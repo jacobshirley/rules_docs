@@ -30,13 +30,10 @@ def _toolchain_extension(module_ctx):
         for toolchain in mod.tags.mkdocs:
             # Create mkdocs wrapper repository
             mkdocs_repository(
-                name = mod.name or "mkdocs",
+                name = toolchain.name,
                 pypi_hub = toolchain.pypi_hub,
                 plugins = toolchain.plugins,
             )
-
-            # Only process the first mkdocs tag (they should all be the same in root module)
-            break
 
     return module_ctx.extension_metadata(
         reproducible = True,
