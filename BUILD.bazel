@@ -4,6 +4,7 @@ load("@mkdocs//:defs.bzl", "mkdocs_config", "mkdocs_serve")
 load("@package_metadata//licenses/rules:license.bzl", "license")
 load("@package_metadata//purl:purl.bzl", "purl")
 load("@package_metadata//rules:package_metadata.bzl", "package_metadata")
+load("//docgen:defs.bzl", "docs")
 
 buildifier(
     name = "buildifier.fix",
@@ -43,9 +44,20 @@ gazelle(
     gazelle = "gazelle_bin",
 )
 
+docs(
+    name = "docs",
+    srcs = [
+        "//docgen/private:docs_md",
+    ],
+    nav = {
+        "README.md": "README",
+        "//docgen/private:docs_md": "rules",
+    },
+)
+
 mkdocs_config(
     name = "mkdocs_config",
-    docs = "//docgen/private:docs_md",
+    docs = ":docs",
     mkdocs_base = "mkdocs.tpl.yaml",
 )
 
@@ -53,5 +65,5 @@ mkdocs_config(
 mkdocs_serve(
     name = "mkdocs.serve",
     config = ":mkdocs_config",
-    docs = ["//docgen/private:docs_md"],
+    docs = [":docs"],
 )
