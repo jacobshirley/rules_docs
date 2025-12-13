@@ -35,6 +35,22 @@ def _mkdocs_build_impl(ctx):
     ]
 
 mkdocs_build = rule(
+    doc = """Build a static MkDocs documentation site.
+
+    This rule processes documentation targets and generates a static website using MkDocs.
+    The output is a directory containing all the HTML, CSS, JavaScript, and asset files
+    needed to deploy the documentation site.
+
+    Example:
+        mkdocs_build(
+            name = "site",
+            config = ":mkdocs_config",
+            docs = [":docs"],
+            site_dir = "site",
+        )
+
+    The built site can then be found in bazel-bin/<package>/<name>/<site_dir>.
+    """,
     implementation = _mkdocs_build_impl,
     attrs = {
         "mkdocs_executable": attr.label(

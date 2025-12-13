@@ -16,6 +16,28 @@ def _docs_link_impl(ctx):
     ]
 
 docs_link = rule(
+    doc = """Define an external link to be used in documentation navigation.
+
+    This rule creates a link target that can be referenced in the nav structure of
+    docs or docs_index targets. It's useful for adding external URLs to your
+    documentation navigation, such as links to external resources, API references,
+    or related projects.
+
+    Example:
+        docs_link(
+            name = "github",
+            title = "GitHub Repository",
+            url = "https://github.com/username/repo",
+        )
+        
+        docs(
+            name = "docs",
+            nav = {
+                "README.md": "Home",
+                ":github": "Source Code",  # Reference the link
+            },
+        )
+    """,
     implementation = _docs_link_impl,
     attrs = {
         "title": attr.string(
