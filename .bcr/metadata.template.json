@@ -1,6 +1,12 @@
 {
     "homepage": "https://github.com/jacobshirley/rules_docgen",
-    "maintainers": [],
+    "maintainers": [
+        {
+            "email": "jakeshirley2@gmail.com",
+            "github": "jacobshirley",
+            "name": "Jacob Shirley"
+        }
+    ],
     "repository": ["github:jacobshirley/rules_docgen"],
     "versions": [],
     "yanked_versions": {}
