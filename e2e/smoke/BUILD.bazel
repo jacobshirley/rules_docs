@@ -32,6 +32,7 @@ docs_index(
 docs(
     name = "docs",
     nav = {
+        "README.md": "Home",  # Link to the main README file.
         ":docs_link": "External Link",  # Custom link text.
         "other-info.md": "Other Info",  # Link to a local markdown file.
         ":other_docs": "Other Docs",  # Link to another docs target.
