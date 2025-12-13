@@ -19,7 +19,7 @@ def docs(
         readme_content = "",
         readme_header_links = {},
         **kwargs):
-    """Generate documentation with automatic navigation from markdown files.
+    """Generate documentation from markdown files.
 
     This macro creates a documentation target that processes markdown files and generates
     a navigation structure. It can either use an existing entry file or generate one from

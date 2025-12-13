@@ -1,14 +1,11 @@
-# Bazel rules for docgen
+# rules_docgen
 
-Bazel rules for generating documentation websites using MkDocs with automatic navigation structure generation.
+Bazel rules for managing documentation and static site generation.
 
 ## Features
 
--   **docs**: Generate documentation with automatic navigation from markdown files
--   **docs_index**: Create nested navigation structures
--   **docs_link**: Define external links in documentation
--   **mkdocs_build**: Build static documentation sites
--   **mkdocs_serve**: Serve documentation locally for development (works with ibazel for live reload)
+-   **Bazel targets**: Manage your documentation as Bazel targets
+-   **MkDocs**: Manage MkDocs (and plugins) using `rules_python` and generate static sites
 -   **Git integration**: Add last updated timestamps from git history
 
 ## Installation
