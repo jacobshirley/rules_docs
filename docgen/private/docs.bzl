@@ -45,7 +45,7 @@ def docs(
     """
     out_folder = (out or name) + "/" + UNIQUE_FOLDER_NAME + "/" + native.package_name()
 
-    valid_target = file_exists(entry) or entry.find(":") != -1
+    valid_target = (file_exists(entry) or entry.find(":") != -1) if entry else False
 
     docs_action(
         name = name,

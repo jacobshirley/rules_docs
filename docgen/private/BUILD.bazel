@@ -1,11 +1,9 @@
 load("@bazel_lib//:bzl_library.bzl", "bzl_library")
-load("@stardoc//stardoc:stardoc.bzl", "stardoc")
-load("//docgen:defs.bzl", "docs")
 
 bzl_library(
     name = "docs",
     srcs = ["docs.bzl"],
-    visibility = ["//docgen:__pkg__"],
+    visibility = ["//visibility:public"],
     deps = [
         ":docs_action",
         ":utils",
@@ -19,7 +17,7 @@ bzl_library(
     srcs = ["docs_index.bzl"],
     visibility = ["//docgen:__pkg__"],
     deps = [
-        ":docs_action",
+        ":docs",
         ":utils",
         "@bazel_lib//lib:utils",
         "@bazel_skylib//rules:build_test",
@@ -115,108 +113,9 @@ bzl_library(
     ],
 )
 
-stardoc(
-    name = "docs_docs",
-    out = "docs.md",
-    input = "docs.bzl",
-    deps = [":docs"],
-)
-
-stardoc(
-    name = "docs_index_docs",
-    out = "docs_index.md",
-    input = "docs_index.bzl",
-    deps = [":docs_index"],
-)
-
-stardoc(
-    name = "docs_link_docs",
-    out = "docs_link.md",
-    input = "docs_link.bzl",
-    deps = [":docs_link"],
-)
-
-stardoc(
-    name = "docs_add_last_updated_docs",
-    out = "docs_add_last_updated.md",
-    input = "docs_add_last_updated.bzl",
-    deps = [":docs_add_last_updated"],
-)
-
-stardoc(
-    name = "git_last_updated_timestamps_docs",
-    out = "git_last_updated_timestamps.md",
-    input = "git_last_updated_timestamps.bzl",
-    deps = [":git_last_updated_timestamps"],
-)
-
-stardoc(
-    name = "mkdocs_build_docs",
-    out = "mkdocs_build.md",
-    input = "mkdocs_build.bzl",
-    deps = [":mkdocs_build"],
-)
-
-stardoc(
-    name = "mkdocs_serve_docs",
-    out = "mkdocs_serve.md",
-    input = "mkdocs_serve.bzl",
-    deps = [":mkdocs_serve"],
-)
-
-stardoc(
-    name = "mkdocs_config_docs",
-    out = "mkdocs_config.md",
-    input = "mkdocs_config.bzl",
-    deps = [":mkdocs_config"],
-)
-
-stardoc(
-    name = "providers_docs",
-    out = "providers.md",
-    input = "providers.bzl",
-    deps = [":providers"],
-)
-
-stardoc(
-    name = "utils_docs",
-    out = "utils.md",
-    input = "utils.bzl",
-    deps = [":utils"],
-)
-
-stardoc(
-    name = "docs_action_docs",
-    out = "docs_action.md",
-    input = "docs_action.bzl",
-    deps = [":docs_action"],
-)
-
-docs(
-    name = "docs_md",
-    srcs = [
-        ":docs_action_docs",
-        ":docs_add_last_updated_docs",
-        ":docs_docs",
-        ":docs_index_docs",
-        ":docs_link_docs",
-        ":git_last_updated_timestamps_docs",
-        ":mkdocs_build_docs",
-        ":mkdocs_config_docs",
-        ":mkdocs_serve_docs",
-        ":providers_docs",
+exports_files(
+    [
+        "docs.bzl",
     ],
-    nav = {
-        ":docs.md": "docs",
-        ":docs_action.md": "docs_action",
-        ":docs_add_last_updated.md": "docs_add_last_updated",
-        ":docs_index.md": "docs_index",
-        ":docs_link.md": "docs_link",
-        ":git_last_updated_timestamps.md": "git_last_updated_timestamps",
-        ":mkdocs_build.md": "mkdocs_build",
-        ":mkdocs_config.md": "mkdocs_config",
-        ":mkdocs_serve.md": "mkdocs_serve",
-        ":providers.md": "providers",
-    },
     visibility = ["//visibility:public"],
 )

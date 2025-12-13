@@ -1,7 +1,6 @@
 """Core documentation index processing rules."""
 
-load("@bazel_skylib//rules:build_test.bzl", "build_test")
-load(":docs_action.bzl", "docs_action")
+load(":docs.bzl", "docs")
 
 def docs_index(
         name = "docs",
@@ -28,18 +27,10 @@ def docs_index(
             - ":index_target": "" for nested docs_index targets
         **kwargs: Additional arguments passed to the underlying docs_action rule.
     """
-    docs_action(
+    docs(
         name = name,
-        srcs = [],
         title = title,
-        entrypoint = entry,
+        entry = entry,
         nav = nav,
         **kwargs
-    )
-
-    build_test(
-        name = name + ".test",
-        targets = [
-            ":" + name,
-        ],
     )

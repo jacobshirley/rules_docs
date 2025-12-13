@@ -48,7 +48,7 @@ docgen.mkdocs(
 use_repo(docgen, "mkdocs")
 ```
 
-See [requirements.txt](e2e/smoke/requirements.txt) for an example requirements file.
+See [requirements.txt](requirements.txt) for an example requirements file.
 
 ### Using WORKSPACE
 
@@ -89,8 +89,6 @@ To create/update the `requirements.txt`, run:
 ```bash
 bazel build //:requirements.update
 ```
-
-For a pinned requirements file with exact versions, see [e2e/smoke/requirements.txt](e2e/smoke/requirements.txt).
 
 ### 3. Create mkdocs template (mkdocs.tpl.yaml)
 
@@ -253,7 +251,7 @@ The `nav` attribute in the `docs` rule creates the navigation structure:
 
 ## Example Project
 
-See the complete working example in [e2e/smoke/](e2e/smoke/) directory, which demonstrates:
+See the complete working example in [e2e/smoke/](e2e/smoke/README.md) directory, which demonstrates:
 
 -   Both Bzlmod (MODULE.bazel) and WORKSPACE setups
 -   Complete BUILD.bazel configuration
