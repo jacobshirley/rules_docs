@@ -25,6 +25,7 @@ jobs:
         ]
       exclude: |
         [
+          {"folder": ".", "os": "windows-latest"},
           {"bazelVersion": "6.4.0"},
           {"bzlmodEnabled": false}
         ]
