@@ -11,7 +11,7 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
         with:
         # Need enough history to find the prior release tag
           fetch-depth: 0
@@ -21,9 +21,22 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
       - name: Create major version tag
         run: |
+          # Check if this was triggered by a tag
+          if [[ ! "$GITHUB_REF" =~ ^refs/tags/ ]]; then
+            echo "Error: This workflow should only run on tag pushes"
+            echo "Current ref: $GITHUB_REF"
+            exit 1
+          fi
+          
           # Get the tag that triggered this workflow
           current_tag=${GITHUB_REF#refs/tags/}
           echo "Current tag: $current_tag"
+          
+          # Validate tag format (must be vX.Y.Z)
+          if [[ ! "$current_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Tag '$current_tag' does not match expected format (vX.Y.Z)"
+            exit 1
+          fi
           
           # Extract major version (e.g., v1.0.1 -> v1)
           major_version=$(echo "$current_tag" | sed -E 's/^v?([0-9]+)\..*/v\1/')
