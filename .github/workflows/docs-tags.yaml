@@ -1,0 +1,40 @@
+# This workflow creates additional tags which are used to deploy documentation
+name: Create Tags for docs
+on:
+  # Allow devs to tag manually through the GitHub UI.
+  # For example after landing a fix that customers are waiting for.
+  workflow_dispatch:
+  push:
+    tags:
+        - 'v*.*.*' # Trigger on version tags like v1.0.0, v2.1.3, etc.
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+        # Need enough history to find the prior release tag
+          fetch-depth: 0
+      - name: Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Create major version tag
+        run: |
+          # Get the tag that triggered this workflow
+          current_tag=${GITHUB_REF#refs/tags/}
+          echo "Current tag: $current_tag"
+          
+          # Extract major version (e.g., v1.0.1 -> v1)
+          major_version=$(echo "$current_tag" | sed -E 's/^v?([0-9]+)\..*/v\1/')
+          echo "Major version: $major_version"
+          
+          # Create and push the major version tag
+          git tag "$major_version" --force
+          git push origin "$major_version" --force
+      - name: Create latest tag
+        run: |
+          git tag latest --force
+          git push origin latest --force
+    permissions:
+      contents: write
