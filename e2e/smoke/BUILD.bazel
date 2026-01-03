@@ -25,7 +25,7 @@ docs_link(
 
 docs(
     name = "other_docs",
-    entry = "other-info-2.md",
+    entrypoint = "other-info-2.md",
     readme_content = "This is some other documentation content.",
     readme_header_links = {
         ":docs_link": "Test Link",
@@ -58,7 +58,7 @@ docs(
 
 docs(
     name = "test_docs",
-    entry = "README_TEST.md",
+    entrypoint = "README_TEST.md",
     nav = {
         "README.md": "Home",  # Link to the main README file.
         ":docs_link": "External Link",  # Custom link text.

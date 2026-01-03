@@ -7,7 +7,7 @@ load(":markdown_action.bzl", "markdown_action")
 
 def docs(
         name = "docs",
-        entry = "README.md",
+        entrypoint = "README.md",
         srcs = [
             "README.md",
         ],
@@ -27,7 +27,7 @@ def docs(
 
     Args:
         name: Name of the documentation target. Defaults to "docs".
-        entry: The entry point markdown file for the documentation. If the file doesn't exist,
+        entrypoint: The entry point markdown file for the documentation. If the file doesn't exist,
             it will be generated with content from readme_content. Defaults to "README.md".
         srcs: List of source markdown files to include in the documentation. Defaults to ["README.md"].
         data: Additional data files to include (images, assets, etc.).
@@ -43,14 +43,14 @@ def docs(
         readme_header_links: Dictionary of links to add to the README header. Format same as nav.
         **kwargs: Additional arguments passed to the underlying docs_action rule.
     """
-    valid_target = (file_exists(entry) or entry.find(":") != -1) if entry else False
+    valid_target = (file_exists(entrypoint) or entrypoint.find(":") != -1) if entrypoint else False
 
-    entrypoint_target = entry if valid_target else None
+    entrypoint_target = entrypoint if valid_target else None
     if (readme_content != "" or len(readme_header_links) > 0):
         markdown_action(
             name = name + "__md",
             file = entrypoint_target,
-            output = entry,
+            output = entrypoint,
             readme_content = readme_content,
             readme_header_links = readme_header_links,
         )
@@ -65,7 +65,7 @@ def docs(
         entrypoint = entrypoint_target,
         nav = nav,
         out = out,
-        readme_filename = entry if not valid_target else None,
+        readme_filename = entrypoint if not valid_target else None,
         readme_content = readme_content,
         readme_header_links = readme_header_links,
         **kwargs

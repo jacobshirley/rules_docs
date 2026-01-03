@@ -155,7 +155,7 @@ docs_link(
 # Create additional documentation sections
 docs(
     name = "other_docs",
-    entry = "other-info.md",
+    entrypoint = "other-info.md",
     readme_content = "This is some other documentation content.",
 )
 

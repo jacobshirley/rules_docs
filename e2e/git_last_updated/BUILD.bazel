@@ -12,7 +12,7 @@ docs(
 docs(
     name = "test_docs",
     srcs = ["test.md"],
-    entry = "test.md",
+    entrypoint = "test.md",
     visibility = ["//visibility:public"],
 )
 
