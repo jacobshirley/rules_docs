@@ -18,6 +18,7 @@ def docs(
         out = None,
         readme_content = "",
         readme_header_links = {},
+        test = True,
         **kwargs):
     """Generate documentation from markdown files.
 
@@ -41,6 +42,7 @@ def docs(
         out: Output directory for generated documentation. If not specified, uses the target name.
         readme_content: Content for the generated entry file if it doesn't exist as a file.
         readme_header_links: Dictionary of links to add to the README header. Format same as nav.
+        test: Whether to create a build_test target for this documentation target. Defaults to True.
         **kwargs: Additional arguments passed to the underlying docs_action rule.
     """
     valid_target = (file_exists(entrypoint) or entrypoint.find(":") != -1) if entrypoint else False
@@ -68,9 +70,10 @@ def docs(
         **kwargs
     )
 
-    build_test(
-        name = name + ".test",
-        targets = [
-            ":" + name,
-        ],
-    )
+    if test:
+        build_test(
+            name = name + ".test",
+            targets = [
+                ":" + name,
+            ],
+        )
