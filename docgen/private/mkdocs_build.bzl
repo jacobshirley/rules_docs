@@ -90,10 +90,6 @@ mkdocs_build = rule(
             doc = "Use the default shell environment",
             default = False,
         ),
-        "copy_to_bin": attr.bool(
-            doc = "Whether to copy the generated site to the bazel-bin directory",
-            default = True,
-        ),
     },
     toolchains = [
         "@bazel_lib//lib:copy_to_directory_toolchain_type",
