@@ -52,7 +52,9 @@ jobs:
         run: |
           bazel build :mkdocs
           mkdir -p docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}
-          cp -r bazel-bin/mkdocs/site/* ./docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}/
+          # TODO: remove the below when 'latest' and 'v0' is up to date
+          cp -r bazel-bin/mkdocs/site/* ./docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}/ || true
+          cp -r bazel-bin/site/* ./docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}/ || true
       - name: Copy latest to root
         if: matrix.version == 'latest'
         run: cp -r docs-html/latest/* docs-html/
