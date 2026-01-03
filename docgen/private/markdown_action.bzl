@@ -32,7 +32,7 @@ def markdown_action_impl(ctx):
                 link = key.label.name
 
             if not link:
-                fail("DocLinkInfo {} has no link".format(key.label.name))
+                fail("DocsLinkInfo {} has no link".format(key.label.name))
 
             header.append("[**{title}**]({link})".format(
                 title = value if value and value != "" else key[DocsLinkInfo].title,
