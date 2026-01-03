@@ -1,6 +1,7 @@
 site_name: rules_docs
 repo_url: https://github.com/jacobshirley/rules_docs
-docs_dir: docs
+# You can also hardcode this to another directory or the 'out_dir' of a docs rule
+docs_dir: BAZEL_DOCS_DIR_PLACEHOLDER
 site_dir: site
 edit_uri: edit/main/
 theme:

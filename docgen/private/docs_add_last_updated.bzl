@@ -5,7 +5,8 @@ load(":providers.bzl", "DocsProviderInfo")
 def _docs_add_last_updated_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
 
-    out_folder = ctx.actions.declare_directory(ctx.attr.out_dir or ctx.label.name)
+    out_dir = ctx.attr.out_dir or ctx.label.name
+    out_folder = ctx.actions.declare_directory(out_dir)
 
     date_format = ctx.attr.last_updated_date_format
     if not date_format:
@@ -84,10 +85,12 @@ def _docs_add_last_updated_impl(ctx):
             files = files,
         ),
         DocsProviderInfo(
+            path = ctx.attr.docs[DocsProviderInfo].path,
             title = ctx.attr.docs[DocsProviderInfo].title,
             files = files,
             entrypoint = ctx.attr.docs[DocsProviderInfo].entrypoint,
             nav = ctx.attr.docs[DocsProviderInfo].nav if DocsProviderInfo in ctx.attr.docs else [],
+            out_dir = out_dir,
         ),
     ]
 

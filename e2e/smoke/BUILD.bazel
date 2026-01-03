@@ -26,6 +26,9 @@ docs(
     name = "other_docs",
     entry = "other-info-2.md",
     readme_content = "This is some other documentation content.",
+    readme_header_links = {
+        ":docs_link": "Test Link",
+    },
 )
 
 docs_index(

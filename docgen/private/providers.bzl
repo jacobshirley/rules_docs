@@ -8,6 +8,7 @@ DocsProviderInfo = provider(
         "entrypoint": "The entrypoint file for the documentation",
         "files": "The files that are part of the documentation",
         "nav": "The sub navigation elements",
+        "out_dir": "The output directory for the documentation",
     },
 )
 
@@ -19,5 +20,14 @@ DocsLinkInfo = provider(
         "url": "The URL of the navigation element",
         "entrypoint": "The entrypoint file for the documentation",
         "files": "The files that are part of the documentation",
+    },
+)
+
+MarkdownInfo = provider(
+    doc = "Provider for markdown processing results",
+    fields = {
+        "file": "The generated markdown file",
+        "entrypoint": "The entrypoint path for the markdown file",
+        "files": "All files related to this markdown processing",
     },
 )

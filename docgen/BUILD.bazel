@@ -24,6 +24,7 @@ bzl_library(
         "//docgen/private:docs_index",
         "//docgen/private:docs_link",
         "//docgen/private:git_last_updated_timestamps",
+        "//docgen/private:markdown_action",
         "//docgen/private:mkdocs_build",
         "//docgen/private:mkdocs_config",
         "//docgen/private:mkdocs_serve",

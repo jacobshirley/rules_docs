@@ -3,6 +3,7 @@
 load("@bazel_lib//lib:utils.bzl", "file_exists")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load(":docs_action.bzl", "docs_action")
+load(":markdown_action.bzl", "markdown_action")
 
 def docs(
         name = "docs",
@@ -42,18 +43,28 @@ def docs(
         readme_header_links: Dictionary of links to add to the README header. Format same as nav.
         **kwargs: Additional arguments passed to the underlying docs_action rule.
     """
-    out_folder = (out or name) + "/"
-
     valid_target = (file_exists(entry) or entry.find(":") != -1) if entry else False
+
+    entrypoint_target = entry if valid_target else None
+    if (readme_content != "" or len(readme_header_links) > 0):
+        markdown_action(
+            name = name + "__md",
+            file = entrypoint_target,
+            output = entry,
+            readme_content = readme_content,
+            readme_header_links = readme_header_links,
+        )
+
+        entrypoint_target = ":" + name + "__md"
 
     docs_action(
         name = name,
         srcs = srcs + data,
         deps = deps,
         title = title,
-        entrypoint = entry if valid_target else None,
+        entrypoint = entrypoint_target,
         nav = nav,
-        out = out_folder,
+        out = out,
         readme_filename = entry if not valid_target else None,
         readme_content = readme_content,
         readme_header_links = readme_header_links,
