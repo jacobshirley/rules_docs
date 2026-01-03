@@ -122,6 +122,7 @@ bzl_library(
         "//docgen/private:__subpackages__",
     ],
     deps = [
+        ":markdown_action",
         ":providers",
         "@bazel_lib//lib:copy_to_directory",
         "@bazel_lib//lib:directory_path",
@@ -168,7 +169,10 @@ stardoc(
     name = "mkdocs_build_docs",
     out = "mkdocs_build.md",
     input = "mkdocs_build.bzl",
-    deps = [":mkdocs_build"],
+    deps = [
+        ":mkdocs_build",
+        "@bazel_lib//lib:paths.bzl",
+    ],
 )
 
 stardoc(
