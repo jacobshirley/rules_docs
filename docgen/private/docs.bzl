@@ -65,9 +65,6 @@ def docs(
         entrypoint = entrypoint_target,
         nav = nav,
         out = out,
-        readme_filename = entrypoint if not valid_target else None,
-        readme_content = readme_content,
-        readme_header_links = readme_header_links,
         **kwargs
     )
 

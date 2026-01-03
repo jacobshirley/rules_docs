@@ -191,19 +191,6 @@ docs_action = rule(
             doc = "The path prefix to rewrite documentation files to",
             default = "",
         ),
-        "readme_filename": attr.string(
-            doc = "The filename of the README.md file",
-            default = "README.md",
-        ),
-        "readme_content": attr.string(
-            doc = "The content of the README.md file",
-            default = "",
-        ),
-        "readme_header_links": attr.label_keyed_string_dict(
-            doc = "The links to add to the README.md file",
-            allow_files = True,
-            providers = [DocsLinkInfo],
-        ),
         "is_index": attr.bool(
             doc = "Whether this docs action is the index",
             default = False,
