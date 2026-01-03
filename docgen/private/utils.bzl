@@ -38,7 +38,4 @@ def collect_inputs(ctx, root = ""):
         allow_overwrites = True,
     )
 
-    return [
-        docs_folder,
-        docs_folder_path + "/" + ctx.file.config.basename,
-    ]
+    return docs_folder

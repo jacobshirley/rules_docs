@@ -57,6 +57,7 @@ docs(
 
 docs(
     name = "test_docs",
+    entry = "README_TEST.md",
     nav = {
         "README.md": "Home",  # Link to the main README file.
         ":docs_link": "External Link",  # Custom link text.

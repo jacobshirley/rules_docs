@@ -8,7 +8,7 @@ def _mkdocs_serve_impl(ctx):
     transitive_runfiles = []
     transitive_runfiles.append(ctx.attr.mkdocs_executable[DefaultInfo].default_runfiles)
 
-    docs_folder, config = collect_inputs(ctx, root = ctx.attr.root_nav_folder)
+    docs_folder = collect_inputs(ctx, root = ctx.attr.root_nav_folder)
     serve_sh = ctx.actions.declare_file(ctx.label.name + ".sh")
 
     inputs = [docs_folder]
@@ -19,7 +19,7 @@ def _mkdocs_serve_impl(ctx):
         content = "\n".join([
             "#!/bin/bash",
             "set -e",
-            "./{mkdocs} serve -f {config}".format(mkdocs = mkdocs_bin.short_path, config = config),
+            "./{mkdocs} serve -f {config}".format(mkdocs = mkdocs_bin.short_path, config = docs_folder.short_path + "/" + ctx.file.config.short_path),
         ]),
         is_executable = True,
     )
