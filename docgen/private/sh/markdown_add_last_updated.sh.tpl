@@ -57,8 +57,6 @@ for arg in "$@"; do
             rel_path="${f#$long_path/}"
             out_path="$rel_path"
 
-            echo $out_path
-
             update_file "$f" "$out_path"
         done
     elif [ -f "$long_path" ]; then
