@@ -3,11 +3,11 @@
 load("@bazel_lib//lib:utils.bzl", "file_exists")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load(":docs_action.bzl", "docs_action")
-load(":utils.bzl", "UNIQUE_FOLDER_NAME")
+load(":markdown_action.bzl", "markdown_action")
 
 def docs(
         name = "docs",
-        entry = "README.md",
+        entrypoint = "README.md",
         srcs = [
             "README.md",
         ],
@@ -18,6 +18,7 @@ def docs(
         out = None,
         readme_content = "",
         readme_header_links = {},
+        test = True,
         **kwargs):
     """Generate documentation from markdown files.
 
@@ -27,7 +28,7 @@ def docs(
 
     Args:
         name: Name of the documentation target. Defaults to "docs".
-        entry: The entry point markdown file for the documentation. If the file doesn't exist,
+        entrypoint: The entry point markdown file for the documentation. If the file doesn't exist,
             it will be generated with content from readme_content. Defaults to "README.md".
         srcs: List of source markdown files to include in the documentation. Defaults to ["README.md"].
         data: Additional data files to include (images, assets, etc.).
@@ -41,29 +42,38 @@ def docs(
         out: Output directory for generated documentation. If not specified, uses the target name.
         readme_content: Content for the generated entry file if it doesn't exist as a file.
         readme_header_links: Dictionary of links to add to the README header. Format same as nav.
+        test: Whether to create a build_test target for this documentation target. Defaults to True.
         **kwargs: Additional arguments passed to the underlying docs_action rule.
     """
-    out_folder = (out or name) + "/" + UNIQUE_FOLDER_NAME + "/" + native.package_name()
+    valid_target = (file_exists(entrypoint) or entrypoint.find(":") != -1) if entrypoint else False
 
-    valid_target = (file_exists(entry) or entry.find(":") != -1) if entry else False
+    entrypoint_target = entrypoint if valid_target else None
+    if (readme_content != "" or len(readme_header_links) > 0):
+        markdown_action(
+            name = name + "__md",
+            file = entrypoint_target,
+            output = entrypoint,
+            readme_content = readme_content,
+            readme_header_links = readme_header_links,
+        )
+
+        entrypoint_target = ":" + name + "__md"
 
     docs_action(
         name = name,
         srcs = srcs + data,
         deps = deps,
         title = title,
-        entrypoint = entry if valid_target else None,
+        entrypoint = entrypoint_target,
         nav = nav,
-        out = out_folder,
-        readme_filename = entry if not valid_target else None,
-        readme_content = readme_content,
-        readme_header_links = readme_header_links,
+        out = out,
         **kwargs
     )
 
-    build_test(
-        name = name + ".test",
-        targets = [
-            ":" + name,
-        ],
-    )
+    if test:
+        build_test(
+            name = name + ".test",
+            targets = [
+                ":" + name,
+            ],
+        )

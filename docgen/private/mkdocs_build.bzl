@@ -1,15 +1,17 @@
 """Rules for building MkDocs documentation sites."""
 
+load("@bazel_lib//lib:paths.bzl", "relative_file")
 load(":utils.bzl", "collect_inputs")
 
 def _mkdocs_build_impl(ctx):
     mkdocs_bin = ctx.executable.mkdocs_executable
 
-    docs_folder, config = collect_inputs(ctx, root = ctx.attr.root_nav_folder)
+    docs_folder = collect_inputs(ctx, root = ctx.attr.root_nav_folder)
+    inputs = [docs_folder]
 
-    inputs = [docs_folder, config]
-
-    out = ctx.actions.declare_directory(ctx.label.name + "/" + ctx.attr.site_dir)
+    out = ctx.actions.declare_directory(ctx.attr.site_dir)
+    config_path = docs_folder.path + "/" + ctx.file.config.short_path
+    site_dir = relative_file(out.path, config_path)
 
     ctx.actions.run_shell(
         inputs = inputs,
@@ -21,9 +23,9 @@ def _mkdocs_build_impl(ctx):
         ),
         arguments = [
             "-f",
-            config.path,
+            config_path,
             "--site-dir",
-            out.basename,
+            site_dir,
         ],
         use_default_shell_env = ctx.attr.use_default_shell_env,
     )

@@ -1,12 +1,12 @@
 """Rules for adding last updated timestamps to documentation."""
 
 load(":providers.bzl", "DocsProviderInfo")
-load(":utils.bzl", "UNIQUE_FOLDER_NAME")
 
-def _docs_add_last_updated_impl(ctx):
+def _markdown_add_last_updated_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
 
-    out_folder = ctx.actions.declare_directory(ctx.attr.out_dir or ctx.label.name)
+    out_dir = ctx.attr.out_dir or ctx.label.name
+    out_folder = ctx.actions.declare_directory(out_dir)
 
     date_format = ctx.attr.last_updated_date_format
     if not date_format:
@@ -29,7 +29,6 @@ def _docs_add_last_updated_impl(ctx):
                 "{json_file}": ctx.file.last_updated_json.path,
                 "{date_format}": ps_date_format,
                 "{update_history_url}": update_history_url if update_history_url else "",
-                "{unique_folder_name}": UNIQUE_FOLDER_NAME,
             },
         )
 
@@ -65,7 +64,6 @@ def _docs_add_last_updated_impl(ctx):
                 "{json_file}": ctx.file.last_updated_json.path,
                 "{date_format}": date_format,
                 "{update_history_url}": update_history_url if update_history_url else "",
-                "{unique_folder_name}": UNIQUE_FOLDER_NAME,
                 "{coreutils}": coreutils_bin.path,
                 "{jq}": jq_bin.path,
             },
@@ -87,14 +85,16 @@ def _docs_add_last_updated_impl(ctx):
             files = files,
         ),
         DocsProviderInfo(
+            path = ctx.attr.docs[DocsProviderInfo].path,
             title = ctx.attr.docs[DocsProviderInfo].title,
             files = files,
             entrypoint = ctx.attr.docs[DocsProviderInfo].entrypoint,
             nav = ctx.attr.docs[DocsProviderInfo].nav if DocsProviderInfo in ctx.attr.docs else [],
+            out_dir = out_dir,
         ),
     ]
 
-docs_add_last_updated = rule(
+markdown_add_last_updated = rule(
     doc = """Add "last updated" timestamps to documentation files from git history.
 
     This rule processes documentation files and adds metadata about when each file
@@ -109,7 +109,7 @@ docs_add_last_updated = rule(
             out = "last_updated.json",
         )
 
-        docs_add_last_updated(
+        markdown_add_last_updated(
             name = "docs_with_timestamps",
             docs = ":docs",
             last_updated_json = ":timestamps",
@@ -119,7 +119,7 @@ docs_add_last_updated = rule(
     The updated documentation files will be available in the specified output directory
     and can be used as input to mkdocs_build or mkdocs_serve.
     """,
-    implementation = _docs_add_last_updated_impl,
+    implementation = _markdown_add_last_updated_impl,
     attrs = {
         "last_updated_json": attr.label(
             doc = "JSON file with a key->value mapping of file paths to last updated timestamps",
@@ -143,11 +143,11 @@ docs_add_last_updated = rule(
             doc = "The URL to the update history",
         ),
         "_script_template": attr.label(
-            default = "//docgen/private/sh:docs_add_last_updated.sh.tpl",
+            default = "//docgen/private/sh:markdown_add_last_updated.sh.tpl",
             allow_single_file = True,
         ),
         "_windows_script_template": attr.label(
-            default = "//docgen/private/sh:docs_add_last_updated.ps1.tpl",
+            default = "//docgen/private/sh:markdown_add_last_updated.ps1.tpl",
             allow_single_file = True,
         ),
         "_windows_constraint": attr.label(

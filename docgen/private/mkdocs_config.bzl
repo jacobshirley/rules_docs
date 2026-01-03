@@ -14,14 +14,17 @@ def _mkdocs_config_impl(ctx):
 
     nav_json = json.encode(docs.nav)
     nav = nav_json.replace(root_nav_folder, "") if root_nav_folder else nav_json
+    docs_path = docs.out_dir
 
     # Write the mkdocs.yml file
     ctx.actions.run_shell(
         inputs = [base],
         outputs = [out],
+        mnemonic = "GenerateMkdocsConfig",
         progress_message = "Generating mkdocs.yml from %s" % base.short_path,
-        command = "echo 'nav: {nav}' | cat - {input} > {output}".format(
+        command = "(echo 'nav: {nav}'; cat {input}) | sed 's|BAZEL_DOCS_DIR_PLACEHOLDER|{docs_path}|g' > {output}".format(
             nav = nav,
+            docs_path = docs_path.replace("|", "\\|"),
             input = base.path,
             output = out.path,
         ),

@@ -55,11 +55,19 @@ for arg in "$@"; do
         find -L "$long_path" -type f -print0 | while IFS= read -r -d '' f; do
             # Calculate relative path from the directory
             rel_path="${f#$long_path/}"
-            # Combine short_path with the relative path
-            out_path="$short_path/$rel_path"
+            out_path="$rel_path"
+
+            echo $out_path
+
             update_file "$f" "$out_path"
         done
     elif [ -f "$long_path" ]; then
-        update_file "$long_path" "$short_path"
+        if [ -n "$short_path" ]; then
+            update_file "$long_path" "$short_path"
+        else
+            # Extract just the filename from long_path
+            filename=$(basename "$long_path")
+            update_file "$long_path" "$filename"
+        fi
     fi
 done

@@ -14,7 +14,8 @@ def collect_inputs(ctx, root = ""):
     Returns:
         Tuple of (docs_folder, config_file)
     """
-    docs_folder = ctx.actions.declare_directory(ctx.label.name + "/" + ctx.attr.docs_dir)
+    docs_folder_path = ctx.label.name + "/" + ctx.attr.docs_dir
+    docs_folder = ctx.actions.declare_directory(docs_folder_path)
 
     copy_to_directory_bin = ctx.toolchains["@bazel_lib//lib:copy_to_directory_toolchain_type"].copy_to_directory_info.bin
 
@@ -30,21 +31,11 @@ def collect_inputs(ctx, root = ""):
         ctx = ctx,
         copy_to_directory_bin = copy_to_directory_bin,
         name = "_" + ctx.label.name + "_docs",
-        files = ctx.files.docs + ctx.files.data,
+        files = ctx.files.docs + ctx.files.data + [ctx.file.config],
         dst = docs_folder,
         replace_prefixes = replace_prefixes,
         include_external_repositories = ["*"],
         allow_overwrites = True,
     )
 
-    config = ctx.actions.declare_file(ctx.label.name + "/" + ctx.file.config.basename)
-
-    ctx.actions.symlink(
-        output = config,
-        target_file = ctx.file.config,
-    )
-
-    return [
-        docs_folder,
-        config,
-    ]
+    return docs_folder

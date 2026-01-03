@@ -5,7 +5,7 @@ load(":docs.bzl", "docs")
 def docs_index(
         name = "docs",
         title = None,
-        entry = None,
+        entrypoint = None,
         nav = {},
         **kwargs):
     """Create a nested navigation structure for organizing documentation.
@@ -18,7 +18,7 @@ def docs_index(
         name: Name of the index target. Defaults to "docs".
         title: Title of the navigation section. This will be used as the display text
             when referenced with an empty string in a parent nav dictionary.
-        entry: Optional entry point file for the index. If provided, clicking the index
+        entrypoint: Optional entry point file for the index. If provided, clicking the index
             will navigate to this file.
         nav: Navigation structure dictionary for this section. Same format as docs() nav:
             - "path/to/file.md": "Display Name" for markdown files
@@ -30,7 +30,8 @@ def docs_index(
     docs(
         name = name,
         title = title,
-        entry = entry,
+        entrypoint = entrypoint,
         nav = nav,
+        is_index = True,
         **kwargs
     )

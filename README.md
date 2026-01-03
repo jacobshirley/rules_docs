@@ -155,7 +155,7 @@ docs_link(
 # Create additional documentation sections
 docs(
     name = "other_docs",
-    entry = "other-info.md",
+    entrypoint = "other-info.md",
     readme_content = "This is some other documentation content.",
 )
 
@@ -263,7 +263,7 @@ See the complete working example in [e2e/smoke/](e2e/smoke/README.md) directory,
 Add last updated timestamps from git history to your documentation:
 
 ```python
-load("@rules_docs//docgen:defs.bzl", "docs_add_last_updated", "git_last_updated_timestamps")
+load("@rules_docs//docgen:defs.bzl", "markdown_add_last_updated", "git_last_updated_timestamps")
 
 git_last_updated_timestamps(
     name = "git_last_updated_timestamps",
@@ -271,7 +271,7 @@ git_last_updated_timestamps(
     out = "last_updated.json",
 )
 
-docs_add_last_updated(
+markdown_add_last_updated(
     name = "docs_with_last_updated",
     docs = ":docs",
     last_updated_json = ":git_last_updated_timestamps",

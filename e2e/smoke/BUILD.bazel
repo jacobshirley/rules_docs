@@ -2,6 +2,7 @@
 Add a basic smoke-test target below.
 """
 
+load("@bazel_lib//lib:diff_test.bzl", "diff_test")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@mkdocs//:defs.bzl", "mkdocs_build", "mkdocs_config", "mkdocs_serve")
 load("@rules_docs//docgen:defs.bzl", "docs", "docs_index", "docs_link")
@@ -24,8 +25,11 @@ docs_link(
 
 docs(
     name = "other_docs",
-    entry = "other-info-2.md",
+    entrypoint = "other-info-2.md",
     readme_content = "This is some other documentation content.",
+    readme_header_links = {
+        ":docs_link": "Test Link",
+    },
 )
 
 docs_index(
@@ -40,12 +44,21 @@ docs_index(
 
 docs(
     name = "docs",
+    nav = {
+        ":docs_link": "External Link",  # Custom link text.
+        "other-info.md": "Other Info",  # Link to a local markdown file.
+        ":other_docs": "Other Docs",  # Link to another docs target.
+    },
+    readme_header_links = {
+        ":other_docs": "Internal Link",
+    },
     rewrite_path = "e2e/smoke",
     visibility = ["//visibility:public"],
 )
 
 docs(
     name = "test_docs",
+    entrypoint = "README_TEST.md",
     nav = {
         "README.md": "Home",  # Link to the main README file.
         ":docs_link": "External Link",  # Custom link text.
@@ -85,4 +98,10 @@ mkdocs_serve(
     config = ":mkdocs_config",
     docs = [":test_docs"],
     visibility = ["//visibility:public"],
+)
+
+diff_test(
+    name = "diff_test_docs_output",
+    file1 = ":test_docs",
+    file2 = "golden-test_docs",
 )
