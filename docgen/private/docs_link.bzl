@@ -8,7 +8,7 @@ def _docs_link_impl(ctx):
             files = depset(ctx.files.data),
         ),
         DocsLinkInfo(
-            path = ctx.label.repo_name.replace("+", ""),
+            path = "",
             title = ctx.attr.title,
             url = ctx.attr.url,
             entrypoint = ctx.attr.entrypoint if ctx.attr.entrypoint != "" else None,
