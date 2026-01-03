@@ -1,7 +1,6 @@
 """Rules for adding last updated timestamps to documentation."""
 
 load(":providers.bzl", "DocsProviderInfo")
-load(":utils.bzl", "UNIQUE_FOLDER_NAME")
 
 def _docs_add_last_updated_impl(ctx):
     is_windows = ctx.target_platform_has_constraint(ctx.attr._windows_constraint[platform_common.ConstraintValueInfo])
@@ -29,7 +28,6 @@ def _docs_add_last_updated_impl(ctx):
                 "{json_file}": ctx.file.last_updated_json.path,
                 "{date_format}": ps_date_format,
                 "{update_history_url}": update_history_url if update_history_url else "",
-                "{unique_folder_name}": UNIQUE_FOLDER_NAME,
             },
         )
 
@@ -65,7 +63,6 @@ def _docs_add_last_updated_impl(ctx):
                 "{json_file}": ctx.file.last_updated_json.path,
                 "{date_format}": date_format,
                 "{update_history_url}": update_history_url if update_history_url else "",
-                "{unique_folder_name}": UNIQUE_FOLDER_NAME,
                 "{coreutils}": coreutils_bin.path,
                 "{jq}": jq_bin.path,
             },

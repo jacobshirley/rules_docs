@@ -11,7 +11,7 @@ def _mkdocs_serve_impl(ctx):
     docs_folder, config = collect_inputs(ctx, root = ctx.attr.root_nav_folder)
     serve_sh = ctx.actions.declare_file(ctx.label.name + ".sh")
 
-    inputs = [docs_folder, config]
+    inputs = [docs_folder]
 
     # Write the mkdocs.yml file
     ctx.actions.write(
@@ -19,7 +19,7 @@ def _mkdocs_serve_impl(ctx):
         content = "\n".join([
             "#!/bin/bash",
             "set -e",
-            "./{mkdocs} serve -f {config}".format(mkdocs = mkdocs_bin.short_path, config = config.short_path),
+            "./{mkdocs} serve -f {config}".format(mkdocs = mkdocs_bin.short_path, config = config),
         ]),
         is_executable = True,
     )
@@ -30,7 +30,7 @@ def _mkdocs_serve_impl(ctx):
     return [
         DefaultInfo(
             executable = serve_sh,
-            runfiles = runfiles.merge_all(transitive_runfiles),
+            runfiles = runfiles,
         ),
     ]
 
