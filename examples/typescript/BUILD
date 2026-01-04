@@ -6,10 +6,9 @@ exports_files([".vale.ini"])
 
 npm_link_all_packages(name = "node_modules")
 
-filegroup(
+markdown(
     name = "README",
-    srcs = ["README.md"],
-    tags = ["markdown"],
+    file = "README.md",
 )
 
 markdown(
