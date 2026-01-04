@@ -3,8 +3,8 @@
 load("@bazel_lib//lib:paths.bzl", "to_repository_relative_path")
 load(":providers.bzl", "DocsLinkInfo", "MarkdownInfo")
 
-def markdown_action_impl(ctx):
-    """Implementation function for markdown_action rule.
+def markdown_action(ctx):
+    """Implementation function for markdown rule.
 
     Modifies markdown files with header links and custom content.
 
@@ -108,8 +108,8 @@ def markdown_action_impl(ctx):
         ),
     ]
 
-markdown_action = rule(
-    implementation = markdown_action_impl,
+markdown = rule(
+    implementation = markdown_action,
     doc = """
     Modifies markdown files with header links and custom content generation.
     """,

@@ -3,7 +3,7 @@
 load("@bazel_lib//lib:utils.bzl", "file_exists")
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load(":docs_action.bzl", "docs_action")
-load(":markdown_action.bzl", "markdown_action")
+load(":markdown.bzl", "markdown")
 
 def docs(
         name = "docs",
@@ -47,7 +47,7 @@ def docs(
 
     entrypoint_target = entrypoint if valid_target else None
     if (readme_content != "" or len(readme_header_links) > 0):
-        markdown_action(
+        markdown(
             name = name + "__md",
             file = entrypoint_target,
             output = entrypoint,
