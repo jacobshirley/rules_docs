@@ -57,7 +57,7 @@ jobs:
           cp -r bazel-bin/mkdocs/site/* ./docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}/ || true
           cp -r bazel-bin/site/* ./docs-html/${{ steps.formatted-ref-name.outputs.formatted_ref_name }}/ || true
       - name: Copy latest to root
-        if: matrix.version == 'latest'
+        if: matrix.version == 'main'
         run: cp -r docs-html/latest/* docs-html/
       - name: Upload artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
